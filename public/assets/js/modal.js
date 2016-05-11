@@ -61,6 +61,7 @@
         if(settings.closeButtonText !== "CLOSE"){
             settings.footer = '<div class="row">'+
                 '<div style="width: 100%; text-align: right;">'+
+                '<button id="btnVoltarModal" class="btn btn-primary">'+settings.closeButtonText+'</button>'+
                 '<button id="btnConfirmModal" class="btn btn-primary">'+settings.confirmButtonText+'</button>'+
                 '</div>'+
                 '</div>';

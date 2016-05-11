@@ -62,13 +62,17 @@
     padding: 15px;
     text-align: right;
     border-top: 1px solid #e5e5e5; }
-.modal .modal-dialog .modal-footer button#btnCloseModal, .modal .modal-dialog .modal-footer button#btnConfirmModal {
+.modal .modal-dialog .modal-footer button#btnCloseModal,
+.modal .modal-dialog .modal-footer button#btnVoltarModal,
+.modal .modal-dialog .modal-footer button#btnConfirmModal {
     border: none;
     cursor: pointer;
     background: transparent;
     color: #404040;
     opacity: 0.5; }
-.modal .modal-dialog .modal-footer button#btnCloseModal:hover, .modal .modal-dialog .modal-footer button#btnConfirmModal:hover {
+.modal .modal-dialog .modal-footer button#btnCloseModal:hover,
+.modal .modal-dialog .modal-footer button#btnVoltarModal:hover,
+.modal .modal-dialog .modal-footer button#btnConfirmModal:hover {
     opacity: 1; }
 
 @media (min-width: 768px) {
@@ -109,6 +113,10 @@
     height: auto;
     border: none;
     box-shadow: none;
+}
+
+#btnVoltarModal{
+    margin-right: 15px;
 }
 
 .overlay{
@@ -205,4 +213,19 @@ table tr.selected-item{
 
 .wrap-name-description p{
     margin-bottom: 0;
+}
+
+.page1, .page2{
+    display: none;
+}
+
+.page1.active, .page2.active{
+    display: block;
+}
+
+.selected-item .itemQtd{
+    display: block;
+}
+.itemQtd{
+    display: none;
 }

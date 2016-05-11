@@ -122,7 +122,7 @@
                 <h4 class="modal-title" id=""></h4>
             </div>
 
-            <div class="modal-body">
+            <div class="modal-body page1 active">
                 <h5>Wraps Salgados</h5>
                 <div class="table-responsive">
                     <table class="wrap-table wraps-salgados">
@@ -144,14 +144,14 @@
                                     <img class="wrap-item-image" src="assets/images/wrap_salgado.jpg">
                                 </td>
                                 <td class="wrap-name-description">
-                                    <p>Wrap de Frango</p>
+                                    <p class="item-name">Wrap de Frango</p>
                                     <p class="small-font">Frango, alface, tomate</p>
                                 </td>
-                                <td>
-                                    <span>R$ 8,50</span>
+                                <td class="item-preco">
+                                    R$ <span>8,50</span>
                                 </td>
                                 <td>
-                                    <input type="number" min="1" max="20" value="1" style="text-align: center;">
+                                    <input class="itemQtd" type="number" min="1" max="20" value="1" style="text-align: center;">
                                 </td>
                             </tr>
                             <tr>
@@ -162,14 +162,14 @@
                                     <img class="wrap-item-image" src="assets/images/wrap_salgado.jpg">
                                 </td>
                                 <td class="wrap-name-description">
-                                    <p>Wrap de Peito de Peru</p>
+                                    <p class="item-name">Wrap de Peito de Peru</p>
                                     <p class="small-font">Peito de Peru, alface, tomate</p>
                                 </td>
-                                <td>
-                                    <span>R$ 9,50</span>
+                                <td class="item-preco">
+                                    R$ <span>9,50</span>
                                 </td>
                                 <td>
-                                    <input type="number" min="1" max="20" value="1" style="text-align: center;">
+                                    <input class="itemQtd" type="number" min="1" max="20" value="1" style="text-align: center;">
                                 </td>
                             </tr>
                         </tbody>
@@ -197,14 +197,14 @@
                                 <img class="wrap-item-image" src="assets/images/wrap_doce.jpg">
                             </td>
                             <td class="wrap-name-description">
-                                <p>Wrap de Morango</p>
+                                <p class="item-name">Wrap de Morango</p>
                                 <p class="small-font">Morango</p>
                             </td>
-                            <td>
-                                <span>R$ 10,50</span>
+                            <td class="item-preco">
+                                R$ <span>10,50</span>
                             </td>
                             <td>
-                                <input type="number" min="1" max="20" value="1" style="text-align: center;">
+                                <input class="itemQtd" type="number" min="1" max="20" value="1" style="text-align: center;">
                             </td>
                         </tr>
                         <tr>
@@ -215,14 +215,14 @@
                                 <img class="wrap-item-image" src="assets/images/wrap_doce.jpg">
                             </td>
                             <td class="wrap-name-description">
-                                <p>Wrap de Nutella</p>
+                                <p class="item-name">Wrap de Nutella</p>
                                 <p class="small-font">Nutella</p>
                             </td>
-                            <td>
-                                <span>R$ 10,50</span>
+                            <td class="item-preco">
+                                R$ <span>10,50</span>
                             </td>
                             <td>
-                                <input type="number" min="1" max="20" value="1" style="text-align: center;">
+                                <input class="itemQtd"  type="number" min="1" max="20" value="1" style="text-align: center;">
                             </td>
                         </tr>
                         </tbody>
@@ -250,14 +250,14 @@
                                 <img class="wrap-item-image" src="assets/images/suco.png">
                             </td>
                             <td class="wrap-name-description">
-                                <p>Suco de Limão</p>
+                                <p class="item-name">Suco de Limão</p>
                                 <p class="small-font">Limão, açúcar</p>
                             </td>
-                            <td>
-                                <span>R$ 6,00</span>
+                            <td class="item-preco">
+                                R$ <span>6,00</span>
                             </td>
                             <td>
-                                <input type="number" min="1" max="20" value="1" style="text-align: center;">
+                                <input class="itemQtd" type="number" min="1" max="20" value="1" style="text-align: center;">
                             </td>
                         </tr>
                         <tr>
@@ -268,14 +268,14 @@
                                 <img class="wrap-item-image" src="assets/images/suco.png">
                             </td>
                             <td class="wrap-name-description">
-                                <p>Suco de Laranja</p>
+                                <p class="item-name">Suco de Laranja</p>
                                 <p class="small-font">Laranja, açúcar</p>
                             </td>
-                            <td>
-                                <span>R$ 6,00</span>
+                            <td class="item-preco">
+                                R$ <span>6,00</span>
                             </td>
                             <td>
-                                <input type="number" min="1" max="20" value="1" style="text-align: center;">
+                                <input class="itemQtd" type="number" min="1" max="20" value="1" style="text-align: center;">
                             </td>
                         </tr>
                         </tbody>
@@ -289,6 +289,40 @@
 
                     <label for="endereco">Endereço</label>
                     <input type="text" name="endereco" id="endereco">
+
+                    <label for="observacao">Observação</label>
+                    <textarea name="observacao" id="observacao"></textarea>
+                </div>
+            </div>
+
+            <div class="modal-body page2">
+                <h5>Informações do pedido</h5>
+                <div class="table-responsive">
+                    <table class="wrap-table table-pedido">
+                        <thead>
+                        <tr>
+                            <th>Descrição</th>
+                            <th style="width: 100px;">Preço</th>
+                            <th style="width: 75px;">Quantidade</th>
+                        </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                    <h5>Total: R$ <span class="pedido-total"></span></h5>
+                </div>
+
+                <hr>
+
+                <h5>Informações de Entrega</h5>
+                <div class="info-entrega">
+                    <label for="nome">Nome</label>
+                    <p class="entrega-nome"></p>
+
+                    <label for="endereco">Endereço</label>
+                    <p class="entrega-endereco"></p>
+
+                    <label for="observacao">Observação</label>
+                    <p class="entrega-observacao"></p>
                 </div>
             </div>
 
