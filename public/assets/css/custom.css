@@ -138,6 +138,10 @@
 
 #header header h1{
     display: inline-block;
+    font-family: 'Shadows Into Light', cursive;
+    text-transform: none;
+    /*color: rgb(255, 193, 7);*/
+    /*text-shadow: 2px 2px #DC6516;*/
 }
 
 #header header p{
@@ -228,4 +232,37 @@ table tr.selected-item{
 }
 .itemQtd{
     display: none;
+}
+
+.inline-fields{
+    width: 50%;
+    display: inline-block;
+    float: left;
+}
+
+.icons-grid li:hover .icon{
+    /*font-size: 3em;*/
+    transition: 0.3s cubic-bezier(.36,.07,.19,.97) all;
+    -ms-transform: scale(1.15); /* IE 9 */
+    -webkit-transform: scale(1.15); /* Safari */
+    transform: scale(1.15);
+}
+
+.btnPedido{
+    animation: 1.5s clickme 1s cubic-bezier(.36,.07,.19,.97) infinite;
+}
+
+@keyframes clickme {
+    0%{
+        transform: scale(1);
+    }
+    25%{
+        transform: scale(1.05);
+    }
+    75%{
+        transform: scale(1.05);
+    }
+    100%{
+        transform: scale(1);
+    }
 }

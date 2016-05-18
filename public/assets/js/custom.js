@@ -25,7 +25,7 @@ function enviarPedido(){
         //validações
         if($(".wrap-table").find("selected-item").size() > 0){
             valid = false;
-        }else if($("#nome").val() == "" || $(".endereco").val() == ""){
+        }else if($("#nome").val() == "" || $("#endereco").val() == "" || $("#bairro").val() == "" || $("#cep").val() == "" || $("#telefone").val() == ""){
             valid = false;
         }
 
@@ -51,12 +51,33 @@ function enviarPedido(){
 
             var nome = $("#nome").val();
             var endereco = $("#endereco").val();
+            var telefone = $("#telefone").val();
+            var bairro = $("#bairro").val();
+            var cep = $("#cep").val();
             var observacao = $("#observacao").val();
 
             if(nome != "" && nome != undefined && nome != null){
                 $(".entrega-nome").text(nome);
             }else{
                 $(".entrega-nome").text("Não preenchido");
+            }
+
+            if(telefone != "" && telefone != undefined && telefone != null){
+                $(".entrega-telefone").text(telefone);
+            }else{
+                $(".entrega-telefone").text("Não preenchido");
+            }
+
+            if(bairro != "" && bairro != undefined && bairro != null){
+                $(".entrega-bairro").text(bairro);
+            }else{
+                $(".entrega-bairro").text("Não preenchido");
+            }
+
+            if(cep != "" && cep != undefined && cep != null){
+                $(".entrega-cep").text(cep);
+            }else{
+                $(".entrega-cep").text("Não preenchido");
             }
 
             if(endereco != "" && endereco != undefined && endereco != null){
@@ -79,7 +100,7 @@ function enviarPedido(){
         if($(".table-pedido").find("placefield-row").size() > 0){
             alert("Por favor escolha seus produtos antes de finalizar o pedido.");
             valid = false;
-        }else if($(".entrega-nome").text() == "Não preenchido" || $(".entrega-endereco").text() == "Não preenchido"){
+        }else if($(".entrega-nome").text() == "Não preenchido" || $(".entrega-endereco").text() == "Não preenchido" || $(".entrega-telefone").text() == "Não preenchido" || $(".entrega-bairro").text() == "Não preenchido" || $(".entrega-cep").text() == "Não preenchido"){
             alert("Por favor preencha as informações de entrega.");
             valid = false;
         }
