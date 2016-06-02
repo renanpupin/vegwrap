@@ -158,6 +158,8 @@ return [
 
         Laravel\Socialite\SocialiteServiceProvider::class,
 
+        laravel\pagseguro\Platform\Laravel5\ServiceProvider::class,
+
     ],
 
     /*
@@ -205,6 +207,8 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
+
+        'PagSeguro' => laravel\pagseguro\Platform\Laravel5\PagSeguro::class,
 
     ],
 

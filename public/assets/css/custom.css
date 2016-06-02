@@ -410,3 +410,6 @@ table tr.selected-item{
     text-decoration: none;
     color: #fff;
 }
+a:hover{
+    text-decoration: none;
+}

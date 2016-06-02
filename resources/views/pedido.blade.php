@@ -7,6 +7,26 @@
                 <h1>Pedido {{$pedido->id}}</h1>
                 <p>Para finalizar seu pedido selecione o método de pagamento.</p>
 
+                @if($pedido->metodo_pagamento == "")
+
+                    <div class="row">
+                        <div class="col-md-4 col-xs-12">
+                            <a id="cancelarPedido" class="btnCancelar" href="/cancelarPedido/{{$pedido->id}}">Cancelar Pedido</a>
+                        </div>
+
+                        <div class="col-md-4 col-xs-12">
+                            <a id="pagarPagSeguro" class="btnCheckout" href="/pagarPagseguro/{{$pedido->id}}">Pagar com Pagseguro</a>
+                        </div>
+
+                        <div class="col-md-4 col-xs-12">
+                            <a id="pagarEntrega" class="btnCheckout" href="/pagarEntrega/{{$pedido->id}}">Pagar na entrega</a>
+                        </div>
+                    </div>
+
+                @endif
+
+                <br>
+
                 <div class="row">
                     <div class="col-xs-12 col-md-2">
                         <label>Subtotal</label>
@@ -91,27 +111,7 @@
                         @endif
                     </div>
 
-                <hr>
 
-                @if($pedido->metodo_pagamento == "")
-
-                <div class="row">
-                    <div class="col-md-4 col-xs-12">
-                        <a id="cancelarPedido" class="btnCancelar" href="/cancelarPedido/{{$pedido->id}}">Cancelar</a>
-                    </div>
-
-                    <div class="col-md-4 col-xs-12">
-                        <a id="pagarPagSeguro" class="btnCheckout" href="/pagarPagseguro/{{$pedido->id}}">Pagar com Pagseguro</a>
-                    </div>
-
-                    <div class="col-md-4 col-xs-12">
-                        <a id="pagarEntrega" class="btnCheckout" href="/pagarEntrega/{{$pedido->id}}">Pagar na entrega</a>
-                    </div>
-                </div>
-
-                @endif
-
-                <br>
 
             </div>
         </div>

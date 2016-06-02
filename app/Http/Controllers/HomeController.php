@@ -9,6 +9,8 @@ use App\Produto;
 use App\Pedido;
 use App\ItensPedido;
 use Auth;
+//use laravel\pagseguro\Facades\PagSeguro;
+use laravel\pagseguro\Platform\Laravel5\PagSeguro;
 
 class HomeController extends Controller
 {
@@ -57,7 +59,7 @@ class HomeController extends Controller
         if($selected_sucos != null){
             foreach($selected_sucos as $suco){
                 $preco = Produto::find($suco)->preco;
-                $subtotal += ($preco * $request->get("suco-".$wrap."-qtd"));
+                $subtotal += ($preco * $request->get("suco-".$suco."-qtd"));
             }
         }
 
@@ -176,8 +178,57 @@ class HomeController extends Controller
         if(!empty($pedido)){
             $pedido->metodo_pagamento = "pagamento_pagseguro";
         }
-        $pedido->save();
+//        $pedido->save();
 
-        return redirect('/pedido/'.$id);
+        $data = [
+            'items' => [],
+            'sender' => [
+                'email' => $pedido->email,
+                'name' => $pedido->nome,
+                'phone' => $pedido->telefone,
+            ]
+        ];
+
+        $itens_pedido = ItensPedido::where('id_pedido', $pedido->id)->get();
+        foreach($itens_pedido as $item){
+            $data['items'][] = [
+                'id' => $item->Produto->id,
+                'description' => ($item->Produto->tipo == "suco" ? "Suco de ".$item->Produto->nome : "Wrap ".$item->Produto->nome),
+                'quantity' => $item->quantidade,
+                'amount' => $item->Produto->preco,
+                'weight' => '0',
+                'shippingCost' => '0',
+                'width' => '0',
+                'height' => '0',
+                'length' => '0',
+            ];
+        }
+        $data['items'][] = [
+            'id' => 0,
+            'description' => 'Entrega',
+            'quantity' => '1',
+            'amount' => $pedido->frete,
+            'weight' => '0',
+            'shippingCost' => '0',
+            'width' => '0',
+            'height' => '0',
+            'length' => '0',
+        ];
+
+
+        $checkout = PagSeguro::checkout()->createFromArray($data);
+        $credentials = PagSeguro::credentials()->get();
+        $information = $checkout->send($credentials); // Retorna um objeto de laravel\pagseguro\Checkout\Information\Information
+
+
+//        dd($data);
+        $pagseguro_code = $information->getCode();
+        $pagseguro_link = $information->getLink();
+
+        return redirect($pagseguro_link);
+    }
+
+    function notificacao(){
+        return view('notificacao_pagamento');
     }
 }

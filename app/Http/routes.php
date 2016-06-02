@@ -37,4 +37,16 @@ Route::get('logout', 'SocialAuthController@logout');
 Route::get('/redirectToProvider', 'SocialAuthController@redirectToProvider');
 Route::get('/callback', 'SocialAuthController@callback');
 
+Route::any('/notificacao', 'HomeController@notificacao');
+
+Route::any('/pagseguro/redirect', [
+    'uses' => 'HomeController@notificacao',
+    'as' => 'pagseguro.redirect',
+]);
+
+Route::post('/pagseguro/notification', [
+    'uses' => '\laravel\pagseguro\Platform\Laravel5\NotificationController@notification',
+    'as' => 'pagseguro.notification',
+]);
+
 //Route::auth();
