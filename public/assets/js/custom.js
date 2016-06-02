@@ -1,22 +1,50 @@
-$(".btnPedido").click(function(e){
-    e.preventDefault();
-    e.stopPropagation();
-    $( "#modal" ).Modal({
-        "title": "Cardápio",
-        "size": "large",
-        "onConfirm": enviarPedido,
-        "closeButtonText": "VOLTAR",
-        "confirmButtonText": "FINALIZAR PEDIDO"
-    });
+//$(".btnPedido").click(function(e){
+//    e.preventDefault();
+//    e.stopPropagation();
+//    $( "#modal" ).Modal({
+//        "title": "Cardápio",
+//        "size": "large",
+//        "onConfirm": enviarPedido,
+//        "closeButtonText": "VOLTAR",
+//        "confirmButtonText": "FINALIZAR PEDIDO"
+//    });
+//});
+
+$(".btnFazerPedido").click(function(e){
+    var valid = true;
+
+    if($("#nome").val() === ""){
+        valid = false;
+    }
+
+    if($("#telefone").val() === ""){
+        valid = false;
+    }
+
+    if($("#endereco").val() === ""){
+        valid = false;
+    }
+
+    if($("#bairro").val() === ""){
+        valid = false;
+    }
+
+    if($("#cep").val() === ""){
+        valid = false;
+    }
+
+    if(!    $(".wrap-select:checked").size() > 0){
+        valid = false;
+    }
+
+    if(!valid){
+        e.preventDefault();
+        e.stopPropagation();
+        alert("Preencha todas as informações para completar o pedido!");
+    }
+
 });
 
-//$( "#modal" ).Modal({
-//    "title": "Cardápio",
-//    "size": "large",
-//    "onConfirm": enviarPedido,
-//    "closeButtonText": "VOLTAR",
-//    "confirmButtonText": "FINALIZAR PEDIDO"
-//});
 
 function enviarPedido(){
     if($(".page1").hasClass("active")){
@@ -38,6 +66,7 @@ function enviarPedido(){
                 $(".table-pedido").find("tbody").append('<tr class="placefield-row"><td colspan="3">Sem itens selecionados para o pedido.</td></tr>');
             }else{
                 var total = 0;
+                var frete = 2;
                 $(".selected-item").each(function(index, element){
                     var nome = $(this).find(".wrap-name-description").find("p.item-name").text();
                     var preco = $(this).find(".item-preco").find("span").text();
@@ -46,6 +75,9 @@ function enviarPedido(){
 
                     total += parseFloat(String(preco).replace(",","."))*parseInt(quantidade);
                 });
+                $(".pedido-subtotal").text(String(total.toFixed(2)).replace(".",","));
+                $(".pedido-frete").text(String(frete.toFixed(2)).replace(".",","));
+                total = total + frete;
                 $(".pedido-total").text(String(total.toFixed(2)).replace(".",","));
             }
 
