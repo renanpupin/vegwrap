@@ -11,6 +11,7 @@ use App\ItensPedido;
 use Auth;
 //use laravel\pagseguro\Facades\PagSeguro;
 use laravel\pagseguro\Platform\Laravel5\PagSeguro;
+use Mail;
 
 class HomeController extends Controller
 {
@@ -35,7 +36,17 @@ class HomeController extends Controller
         $wraps_doces = Produto::where('tipo', 'wrap_doce')->get();
         $sucos = Produto::where('tipo', 'suco')->get();
 
-        return view('home')->with('wraps_salgados',$wraps_salgados)->with('wraps_doces',$wraps_doces)->with('sucos',$sucos);
+
+        $pedidos = Pedido::where('id_user', Auth::user()->id)->get();
+
+        $hasPedidoPendente = false;
+        foreach($pedidos as $pedido){
+            if($pedido->metodo_pagamento == ""){
+                $hasPedidoPendente = true;
+            }
+        }
+
+        return view('home')->with('hasPedidoPendente',$hasPedidoPendente)->with('wraps_salgados',$wraps_salgados)->with('wraps_doces',$wraps_doces)->with('sucos',$sucos);
     }
 
     public function pedido(Request $request)
@@ -76,6 +87,7 @@ class HomeController extends Controller
             'cep' => $request->get("cep"),
             'observacao' => $request->get("observacao"),
             'metodo_pagamento' => "",
+            'codigo_pagseguro' => "",
         ]);
 
 
@@ -165,10 +177,28 @@ class HomeController extends Controller
         }
         $pedido->save();
 
-        //mailgun
-        //https://jamie.sh/tutorials/7/setting-up-mailgun-with-laravel-5
+        $email = Auth::user()->email;
 
-        return redirect('/pedido/'.$id);
+        $itens_pedido = ItensPedido::where('id_pedido', $pedido->id)->get();
+
+        //email pra quem comprou
+        Mail::send('emails.pedido', ['pedido' => $pedido, 'itens_pedido' => $itens_pedido], function($message) use ($email)
+        {
+            $message->subject('Confirmação de Pedido na Vegwrap');
+            $message->from('pedido@vegwrap.com.br', 'Vegwrap');
+            $message->to($email);
+        });
+
+        //email admin
+        Mail::send('emails.confirmacaoPedido', ['pedido' => $pedido, 'itens_pedido' => $itens_pedido], function($message)
+        {
+            $message->subject('Novo Pedido na Vegwrap');
+            $message->from('pedido@vegwrap.com.br', 'Vegwrap');
+            $message->to('pedido@vegwrap.com.br', 'Vegwrap');
+            $message->cc('renan.pupin@gmail.com');
+        });
+
+        return view('notificacao_pagamento');
     }
 
     function pagarPagseguro($id){
@@ -225,10 +255,44 @@ class HomeController extends Controller
         $pagseguro_code = $information->getCode();
         $pagseguro_link = $information->getLink();
 
+        if(!empty($pedido)){
+            $pedido->codigo_pagseguro = $pagseguro_code;
+        }
+        $pedido->save();
+
         return redirect($pagseguro_link);
     }
 
     function notificacao(){
+//        dd($request->all());
+//        $credentials = PagSeguro::credentials()->get();
+//        $transaction = PagSeguro::transaction()->get("53F78D39-1FBC-4E72-86F9-C79EE8F64447", $credentials);
+//        $information = $transaction->getInformation();
+//        dd($information);
+
+
+        $pedido = Pedido::where('id_user', Auth::user()->id)->orderBy('created_at', 'desc')->first();
+        $email = Auth::user()->email;
+
+        $itens_pedido = ItensPedido::where('id_pedido', $pedido->id)->get();
+
+        //email pra quem comprou
+        Mail::send('emails.pedido', ['pedido' => $pedido, 'itens_pedido' => $itens_pedido], function($message) use ($email)
+        {
+            $message->subject('Confirmação de Pedido na Vegwrap');
+            $message->from('pedido@vegwrap.com.br', 'Vegwrap');
+            $message->to($email);
+        });
+
+        //email admin
+        Mail::send('emails.confirmacaoPedido', ['pedido' => $pedido, 'itens_pedido' => $itens_pedido], function($message)
+        {
+            $message->subject('Novo Pedido na Vegwrap');
+            $message->from('pedido@vegwrap.com.br', 'Vegwrap');
+            $message->to('pedido@vegwrap.com.br', 'Vegwrap');
+            $message->cc('renan.pupin@gmail.com');
+        });
+
         return view('notificacao_pagamento');
     }
 }

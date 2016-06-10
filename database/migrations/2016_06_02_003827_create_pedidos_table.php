@@ -25,6 +25,7 @@ class CreatePedidosTable extends Migration
             $table->string('cep');
             $table->string('observacao');
             $table->string('metodo_pagamento');
+            $table->string('codigo_pagseguro');
             $table->timestamps();
         });
     }

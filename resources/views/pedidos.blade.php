@@ -23,7 +23,12 @@
 
                     <div class="col-xs-2">
                         <label>Pagamento</label>
-                        <p>{{$pedido->metodo_pagamento == "" ? "Pendente" : ($pedido->metodo_pagamento == "pagamento_entrega" ? "Na entrega" : "Via Pagseguro")}}</p>
+                        @if($pedido->metodo_pagamento=="")
+                            <p style="color: red;">{{$pedido->metodo_pagamento == "" ? "Pendente" : ($pedido->metodo_pagamento == "pagamento_entrega" ? "Na entrega" : "Via Pagseguro")}}</p>
+                        @else
+                            <p>{{$pedido->metodo_pagamento == "" ? "Pendente" : ($pedido->metodo_pagamento == "pagamento_entrega" ? "Na entrega" : "Via Pagseguro")}}</p>
+                        @endif
+
                     </div>
 
                     <div class="col-xs-2">

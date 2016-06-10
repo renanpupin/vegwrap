@@ -5,9 +5,10 @@
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
                 <h1>Pedido {{$pedido->id}}</h1>
-                <p>Para finalizar seu pedido selecione o método de pagamento.</p>
 
                 @if($pedido->metodo_pagamento == "")
+
+                    <p>Para finalizar seu pedido selecione o método de pagamento.</p>
 
                     <div class="row">
                         <div class="col-md-4 col-xs-12">
