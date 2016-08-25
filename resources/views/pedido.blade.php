@@ -71,10 +71,19 @@
                             <label>Quantidade</label>
                             <p>{{$item_pedido->quantidade}}</p>
                         </div>
+                        @if(count($item_pedido->adicionais) > 0)
+                            <div class="col-xs-12">
+                                <label>Adicionais</label>
+                                @foreach($item_pedido->adicionais as $adicional)
+                                    <p>{{$adicional->nome}}</p>
+                                @endforeach
+                            </div>
+                        @endif
                     </div>
+                    <hr>
                 @endforeach
 
-                <hr>
+                {{--<hr>--}}
 
                 <h3>Informações da Entrega</h3>
 

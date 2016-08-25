@@ -6,42 +6,44 @@
             <div class="col-md-10 col-md-offset-1">
                 <h1>Meus Pedidos</h1>
 
-                @foreach($pedidos as $pedido)
-                <div class="row">
-
-                    <div class="col-xs-1">
-                        <label>Id</label>
-                        <p>{{$pedido->id}}</p>
-                    </div>
-
-
-
-                    <div class="col-xs-2">
-                        <label>Data</label>
-                        <p>{{$pedido->data}}</p>
-                    </div>
-
-                    <div class="col-xs-2">
-                        <label>Pagamento</label>
-                        @if($pedido->metodo_pagamento=="")
-                            <p style="color: red;">{{$pedido->metodo_pagamento == "" ? "Pendente" : ($pedido->metodo_pagamento == "pagamento_entrega" ? "Na entrega" : "Via Pagseguro")}}</p>
-                        @else
-                            <p>{{$pedido->metodo_pagamento == "" ? "Pendente" : ($pedido->metodo_pagamento == "pagamento_entrega" ? "Na entrega" : "Via Pagseguro")}}</p>
-                        @endif
-
-                    </div>
-
-                    <div class="col-xs-2">
-                        <label>Total</label>
-                        <p>R$ {{$pedido->total}}</p>
-                    </div>
-
-                    <div class="col-xs-2">
-                        <a href="/pedido/{{$pedido->id}}" style="margin-top: 25px; display: inline-block;">Ver detalhes</a>
-                    </div>
-                </div>
-                    <hr>
-                @endforeach
+                <div class="table-responsive">
+                <table class="table table-hover wrap-table wraps-salgados">
+                    <thead>
+                    <tr>
+                        <th style="width: 50px;">Id</th>
+                        <th style="width: 100px;">Data</th>
+                        <th style="width: 100px;">Pagamento</th>
+                        <th style="width: 75px;">Total</th>
+                        <th style="width: 100px;">Detalhes</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($pedidos as $pedido)
+                            <tr>
+                                <td>
+                                    {{$pedido->id}}
+                                </td>
+                                <td>
+                                    {{$pedido->data}}
+                                </td>
+                                <td>
+                                    @if($pedido->metodo_pagamento=="")
+                                        <p style="color: red;">{{$pedido->metodo_pagamento == "" ? "Pendente" : ($pedido->metodo_pagamento == "pagamento_entrega" ? "Na entrega" : "Via Pagseguro")}}</p>
+                                    @else
+                                        <p>{{$pedido->metodo_pagamento == "" ? "Pendente" : ($pedido->metodo_pagamento == "pagamento_entrega" ? "Na entrega" : "Via Pagseguro")}}</p>
+                                    @endif
+                                </td>
+                                <td>
+                                    R$ {{$pedido->total}}
+                                </td>
+                                <td>
+                                    <a href="/pedido/{{$pedido->id}}">Ver detalhes</a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
 
             </div>
         </div>

@@ -15,7 +15,7 @@ class Pedido extends Model
      * @var array
      */
     protected $fillable = [
-        'id_user', 'subtotal', 'frete', 'total', 'nome', 'telefone', 'endereco', 'bairro', 'cep', 'observacao', 'metodo_pagamento', 'codigo_pagseguro'
+        'id_user', 'subtotal', 'frete', 'total', 'nome', 'telefone', 'endereco', 'bairro', 'cep', 'observacao', 'metodo_pagamento', 'codigo_pagseguro', 'status'
     ];
 
 }

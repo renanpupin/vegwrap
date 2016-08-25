@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Input;
 use App\Produto;
 use App\Pedido;
 use App\ItensPedido;
+use App\AdicionaisItemPedido;
 use Auth;
 //use laravel\pagseguro\Facades\PagSeguro;
 use laravel\pagseguro\Platform\Laravel5\PagSeguro;
@@ -62,6 +63,12 @@ class HomeController extends Controller
             foreach ($selected_wraps as $wrap) {
                 $preco = Produto::find($wrap)->preco;
                 $subtotal += ($preco * $request->get("wrap-" . $wrap . "-qtd"));
+
+                $adicionais_wrap_preco = $request->get("adicional-".$wrap."-preco");
+                for($i = 0; $i < sizeof($adicionais_wrap_preco); $i++){
+                    $subtotal += ($adicionais_wrap_preco[$i] * $request->get("wrap-" . $wrap . "-qtd"));
+                }
+
             }
         }
 
@@ -88,17 +95,29 @@ class HomeController extends Controller
             'observacao' => $request->get("observacao"),
             'metodo_pagamento' => "",
             'codigo_pagseguro' => "",
+//            'status' => "pendente"
         ]);
 
 
         $selected_wraps = $request->get("wrap-select");
         if($selected_wraps != null) {
             foreach ($selected_wraps as $wrap) {
-                ItensPedido::Create([
+                $item_pedido = ItensPedido::Create([
                     'id_pedido' => $pedido->id,
                     'id_produto' => $wrap,
                     'quantidade' => $request->get("wrap-" . $wrap . "-qtd")
                 ]);
+
+                $adicionais_wrap_nome = $request->get("adicional-".$wrap."-nome");
+                $adicionais_wrap_preco = $request->get("adicional-".$wrap."-preco");
+                for($i = 0; $i < sizeof($adicionais_wrap_nome); $i++){
+//                    dd($adicionais_wrap_nome[$i], $adicionais_wrap_preco[$i]);
+                    AdicionaisItemPedido::Create([
+                        'nome' => $adicionais_wrap_nome[$i],
+                        'preco' => $adicionais_wrap_preco[$i],
+                        'id_item_pedido' => $item_pedido->id
+                    ]);
+                }
             }
         }
 
@@ -132,6 +151,10 @@ class HomeController extends Controller
 
             $itens_pedido = ItensPedido::where('id_pedido', $pedido->id)->get();
 
+            foreach($itens_pedido as $item){
+                $item->adicionais = AdicionaisItemPedido::where('id_item_pedido', $item->id)->get();
+            }
+
             return view('pedido')->with('pedido', $pedido)->with('itens_pedido', $itens_pedido);
         }else{
             return redirect('/home');
@@ -145,8 +168,17 @@ class HomeController extends Controller
         if(!empty($pedido)){
             $itens_pedido = ItensPedido::where('id_pedido', $pedido->id)->get();
             foreach($itens_pedido as $item){
+
+                //removendo adicionais do item do pedido
+                $adicionais_item_pedido = AdicionaisItemPedido::where('id_item_pedido', $item->id)->get();
+                foreach($adicionais_item_pedido as $adicional){
+                    $adicional->delete();
+                }
+
+                //removendo item do pedido
                 $item->delete();
             }
+            //removendo pedido
             $pedido->delete();
         }
 
@@ -232,6 +264,22 @@ class HomeController extends Controller
                 'height' => '0',
                 'length' => '0',
             ];
+
+            $adicionais_item_pedido = AdicionaisItemPedido::where('id_item_pedido', $item->id)->get();
+
+            foreach($adicionais_item_pedido as $adicional){
+                $data['items'][] = [
+                    'id' => $adicional->id,
+                    'description' => "Adicional: ".$adicional->nome,
+                    'quantity' => $item->quantidade,
+                    'amount' => $adicional->preco,
+                    'weight' => '0',
+                    'shippingCost' => '0',
+                    'width' => '0',
+                    'height' => '0',
+                    'length' => '0',
+                ];
+            }
         }
         $data['items'][] = [
             'id' => 0,
