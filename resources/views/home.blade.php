@@ -237,105 +237,105 @@
                                     <input type="checkbox" class="adicional-select" name="adicional-select[]" value="alface">
                                 </td>
                                 <td class="adicional-nome">Alface</td>
-                                <td class="adicional-preco">R$ <span>1,50</span></td>
+                                <td class="adicional-preco">R$ <span>0,50</span></td>
                             </tr>
-                            <tr>
+                            {{-- <tr>
                                 <td style="vertical-align: middle;">
                                     <input type="checkbox" class="adicional-select" name="adicional-select[]" value="azeite-de-oliva">
                                 </td>
                                 <td class="adicional-nome">Azeite de Oliva</td>
-                                <td class="adicional-preco">R$ <span>1,00</span></td>
-                            </tr>
+                                <td class="adicional-preco">R$ <span>0,50</span></td>
+                            </tr> --}}
                             <tr>
                                 <td style="vertical-align: middle;">
                                     <input type="checkbox" class="adicional-select" name="adicional-select[]" value="azeitona">
                                 </td>
                                 <td class="adicional-nome">Azeitona</td>
-                                <td class="adicional-preco">R$ <span>0,50</span></td>
+                                <td class="adicional-preco">R$ <span>0,75</span></td>
                             </tr>
                             <tr>
                                 <td style="vertical-align: middle;">
                                     <input type="checkbox" class="adicional-select" name="adicional-select[]" value="brocolis">
                                 </td>
                                 <td class="adicional-nome">Brócolis</td>
-                                <td class="adicional-preco">R$ <span>2,00</span></td>
+                                <td class="adicional-preco">R$ <span>0,50</span></td>
                             </tr>
                             <tr>
                                 <td style="vertical-align: middle;">
                                     <input type="checkbox" class="adicional-select" name="adicional-select[]" value="cebola-roxa">
                                 </td>
                                 <td class="adicional-nome">Cebola Roxa</td>
-                                <td class="adicional-preco">R$ <span>1,50</span></td>
+                                <td class="adicional-preco">R$ <span>0,50</span></td>
                             </tr>
                             <tr>
                                 <td style="vertical-align: middle;">
                                     <input type="checkbox" class="adicional-select" name="adicional-select[]" value="cenoura">
                                 </td>
                                 <td class="adicional-nome">Cenoura</td>
-                                <td class="adicional-preco">R$ <span>1,50</span></td>
+                                <td class="adicional-preco">R$ <span>0,50</span></td>
                             </tr>
                             <tr>
                                 <td style="vertical-align: middle;">
                                     <input type="checkbox" class="adicional-select" name="adicional-select[]" value="ervilha">
                                 </td>
                                 <td class="adicional-nome">Ervilha</td>
-                                <td class="adicional-preco">R$ <span>1,50</span></td>
+                                <td class="adicional-preco">R$ <span>0,50</span></td>
                             </tr>
                             <tr>
                                 <td style="vertical-align: middle;">
                                     <input type="checkbox" class="adicional-select" name="adicional-select[]" value="espinafre">
                                 </td>
                                 <td class="adicional-nome">Espinafre</td>
-                                <td class="adicional-preco">R$ <span>2,50</span></td>
+                                <td class="adicional-preco">R$ <span>0,75</span></td>
                             </tr>
                             <tr>
                                 <td style="vertical-align: middle;">
                                     <input type="checkbox" class="adicional-select" name="adicional-select[]" value="milho">
                                 </td>
                                 <td class="adicional-nome">Milho</td>
-                                <td class="adicional-preco">R$ <span>1,00</span></td>
+                                <td class="adicional-preco">R$ <span>0,50</span></td>
                             </tr>
                             <tr>
                                 <td style="vertical-align: middle;">
                                     <input type="checkbox" class="adicional-select" name="adicional-select[]" value="mussarela">
                                 </td>
                                 <td class="adicional-nome">Mussarela</td>
-                                <td class="adicional-preco">R$ <span>2,50</span></td>
+                                <td class="adicional-preco">R$ <span>1,00</span></td>
                             </tr>
-                            <tr>
+                            {{-- <tr>
                                 <td style="vertical-align: middle;">
                                     <input type="checkbox" class="adicional-select" name="adicional-select[]" value="repolho-roxo">
                                 </td>
                                 <td class="adicional-nome">Repolho Roxo</td>
                                 <td class="adicional-preco">R$ <span>1,50</span></td>
-                            </tr>
+                            </tr> --}}
                             <tr>
                                 <td style="vertical-align: middle;">
                                     <input type="checkbox" class="adicional-select" name="adicional-select[]" value="requeijao">
                                 </td>
                                 <td class="adicional-nome">Requeijão</td>
-                                <td class="adicional-preco">R$ <span>2,50</span></td>
+                                <td class="adicional-preco">R$ <span>0,75</span></td>
                             </tr>
                             <tr>
                                 <td style="vertical-align: middle;">
                                     <input type="checkbox" class="adicional-select" name="adicional-select[]" value="ricota">
                                 </td>
                                 <td class="adicional-nome">Ricota</td>
-                                <td class="adicional-preco">R$ <span>2,50</span></td>
+                                <td class="adicional-preco">R$ <span>1,25</span></td>
                             </tr>
                             <tr>
                                 <td style="vertical-align: middle;">
                                     <input type="checkbox" class="adicional-select" name="adicional-select[]" value="rucula">
                                 </td>
                                 <td class="adicional-nome">Rúcula</td>
-                                <td class="adicional-preco">R$ <span>1,50</span></td>
+                                <td class="adicional-preco">R$ <span>0,75</span></td>
                             </tr>
                             <tr>
                                 <td style="vertical-align: middle;">
                                     <input type="checkbox" class="adicional-select" name="adicional-select[]" value="tomate-seco">
                                 </td>
                                 <td class="adicional-nome">Tomate Seco</td>
-                                <td class="adicional-preco">R$ <span>2,50</span></td>
+                                <td class="adicional-preco">R$ <span>1,50</span></td>
                             </tr>
 
                         </tbody>
