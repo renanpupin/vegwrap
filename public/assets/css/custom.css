@@ -407,6 +407,49 @@ table tr.selected-item{
     transform: scale(1.05);
 }
 
+.btnFazerPedido:disabled{
+    background-color: #afd1c3;
+}
+
+.btnCalcularFrete {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    -ms-appearance: none;
+    appearance: none;
+    -moz-transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+    -webkit-transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+    -ms-transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+    background-color: transparent;
+    border-radius: 0;
+    border: 0;
+    box-shadow: inset 0 0 0 2px #dddddd;
+    color: #61686b !important;
+    cursor: pointer;
+    display: inline-block;
+    font-weight: 700;
+    height: 3em;
+    letter-spacing: 0.05em;
+    line-height: 3.15em;
+    padding: 0 2em;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    white-space: nowrap;
+    background-color: #E46666;
+    box-shadow: none;
+    color: #ffffff !important;
+    animation: 1.5s clickme 1s cubic-bezier(.36,.07,.19,.97) infinite;
+    text-decoration: none;
+    margin: 0 auto;
+    margin-bottom: 20px;
+}
+
+.btnCalcularFrete:hover{
+    text-decoration: none;
+    transform: scale(1.05);
+}
+
 .tab-content{
     border-left: 1px solid #e7e7e7;
     border-right: 1px solid #e7e7e7;

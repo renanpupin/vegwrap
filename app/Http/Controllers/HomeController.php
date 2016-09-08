@@ -53,7 +53,8 @@ class HomeController extends Controller
     public function pedido(Request $request)
     {
         $subtotal = 0;
-        $frete = 3;
+        $frete = $request->get("frete");
+//        dd($frete);
 
 //        dd($request->all());
 //        dd($request->get("wrap-select"));
@@ -89,7 +90,7 @@ class HomeController extends Controller
             'total' => $subtotal + $frete,
             'nome' => $request->get("nome"),
             'telefone' => $request->get("telefone"),
-            'endereco' => $request->get("endereco"),
+            'endereco' => $request->get("logradouro").", ".$request->get("numero"),
             'bairro' => $request->get("bairro"),
             'cep' => $request->get("cep"),
             'observacao' => $request->get("observacao"),

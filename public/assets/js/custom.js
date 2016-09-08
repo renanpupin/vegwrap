@@ -1,6 +1,99 @@
 $(document).ready(function(){
+    $(".btnCalcularFrete").click(function(e){
+        var valid = true;
+
+        if($("#logradouro").val() === ""){
+            valid = false;
+        }
+
+        if($("#numero").val() === ""){
+            valid = false;
+        }
+
+        if($("#bairro").val() === ""){
+            valid = false;
+        }
+
+        if($("#cep").val() === ""){
+            valid = false;
+        }
+
+        if(!valid){
+            alert("Preencha os campos para calcular o frete");
+        }else{
+            console.log("calculando o frete");
+            var endereco_origem = "Avenida+da+Saudade,1013+Presidente+Prudente+São+Paulo";
+            var endereco_entrega = $("#logradouro").val()+","+$("#numero").val()+"+Presidente+Prudente+São+Paulo";
+            endereco_entrega = endereco_entrega.replace(/ /g, '+');
+
+
+            var service = new google.maps.DistanceMatrixService();
+
+            service.getDistanceMatrix(
+                {
+                    origins: [endereco_origem],
+                    destinations: [endereco_entrega],
+                    travelMode: google.maps.TravelMode.DRIVING,
+                    avoidHighways: false,
+                    avoidTolls: false
+                },
+                callback
+            );
+
+            function callback(response, status) {
+                if(status=="OK") {
+                    var distance = response.rows[0].elements[0].distance.value;
+
+                    if(distance > 10000){
+                        alert("A distância máxima para a entrega é de 10km.");
+                    }else{
+                        if(distance < 5000){
+                            $("#frete").val("2");
+                        }else{
+                            $("#frete").val("3");
+                        }
+
+                        $(".info-frete").html("Valor do frete: R$ "+$("#frete").val()+",00 ("+response.rows[0].elements[0].distance.text+")");
+
+                        $(".btnFazerPedido").prop("disabled", false);
+                    }
+
+                } else {
+                    alert("Não foi possível calcular o frete! Erro: " + status);
+                }
+            }
+
+            //$.get( "https://maps.googleapis.com/maps/api/distancematrix/json?origins="+endereco_origem+"&destinations="+endereco_entrega+"&mode=driving", function( data ) {
+            //    if(data.status == "OK"){
+            //        var distance = data.rows[0].elements[0].distance.value;
+            //
+            //        if(distance > 10000){
+            //            alert("A distância máxima para a entrega é de 10km.");
+            //        }else{
+            //            if(distance < 5000){
+            //                $("#frete").val("2");
+            //            }else{
+            //                $("#frete").val("3");
+            //            }
+            //
+            //            $(".info-frete").html("Valor do frete: R$ "+$("#frete").val()+",00");
+            //
+            //            $(".btnFazerPedido").prop("disabled", false);
+            //        }
+            //    }else{
+            //        alert("Não foi possível calcular o frete para o endereço informado");
+            //    }
+            //    //alert(data.rows[0].elements[0].distance.text);
+            //});
+        }
+    });
+
     $(".btnFazerPedido").click(function(e){
         var valid = true;
+
+        if($("#frete").val() === ""){
+            valid = false;
+        }
 
         if($("#nome").val() === ""){
             valid = false;
@@ -10,7 +103,11 @@ $(document).ready(function(){
             valid = false;
         }
 
-        if($("#endereco").val() === ""){
+        if($("#logradouro").val() === ""){
+            valid = false;
+        }
+
+        if($("#numero").val() === ""){
             valid = false;
         }
 
@@ -31,7 +128,6 @@ $(document).ready(function(){
             e.stopPropagation();
             alert("Preencha todas as informações para completar o pedido!");
         }
-
     });
 
 
@@ -42,7 +138,7 @@ $(document).ready(function(){
             //validações
             if($(".wrap-table").find("selected-item").size() > 0){
                 valid = false;
-            }else if($("#nome").val() == "" || $("#endereco").val() == "" || $("#bairro").val() == "" || $("#cep").val() == "" || $("#telefone").val() == ""){
+            }else if($("#nome").val() == "" || $("#logradouro").val() == "" || $("#numero").val() == "" || $("#bairro").val() == "" || $("#cep").val() == "" || $("#telefone").val() == ""){
                 valid = false;
             }
 
@@ -71,7 +167,8 @@ $(document).ready(function(){
                 }
 
                 var nome = $("#nome").val();
-                var endereco = $("#endereco").val();
+                var logradouro = $("#logradouro").val();
+                var numero = $("#numero").val();
                 var telefone = $("#telefone").val();
                 var bairro = $("#bairro").val();
                 var cep = $("#cep").val();
@@ -101,10 +198,16 @@ $(document).ready(function(){
                     $(".entrega-cep").text("Não preenchido");
                 }
 
-                if(endereco != "" && endereco != undefined && endereco != null){
-                    $(".entrega-endereco").text(endereco);
+                if(logradouro != "" && logradouro != undefined && logradouro != null){
+                    $(".entrega-logradouro").text(logradouro);
                 }else{
-                    $(".entrega-endereco").text("Não preenchido");
+                    $(".entrega-logradouro").text("Não preenchido");
+                }
+
+                if(numero != "" && numero != undefined && numero != null){
+                    $(".entrega-numero").text(numero);
+                }else{
+                    $(".entrega-numero").text("Não preenchido");
                 }
 
                 if(observacao != "" && observacao != undefined && observacao != null){
@@ -121,7 +224,7 @@ $(document).ready(function(){
             if($(".table-pedido").find("placefield-row").size() > 0){
                 alert("Por favor escolha seus produtos antes de finalizar o pedido.");
                 valid = false;
-            }else if($(".entrega-nome").text() == "Não preenchido" || $(".entrega-endereco").text() == "Não preenchido" || $(".entrega-telefone").text() == "Não preenchido" || $(".entrega-bairro").text() == "Não preenchido" || $(".entrega-cep").text() == "Não preenchido"){
+            }else if($(".entrega-nome").text() == "Não preenchido" || $(".entrega-logradouro").text() == "Não preenchido" || $(".entrega-numero").text() == "Não preenchido" || $(".entrega-telefone").text() == "Não preenchido" || $(".entrega-bairro").text() == "Não preenchido" || $(".entrega-cep").text() == "Não preenchido"){
                 alert("Por favor preencha as informações de entrega.");
                 valid = false;
             }

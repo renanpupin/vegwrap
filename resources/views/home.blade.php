@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?key=AIzaSyBN3guDKF2RuMckhiLDEusgV7G8qJ361ek"></script>
 <form id="formPedido" class="form-horizontal" role="form" method="POST" action="{{ url('pedido') }}">
     <input type="hidden" name="_token" value="{{ csrf_token() }}">
     <div class="container">
@@ -168,8 +169,15 @@
                                 <label for="telefone">Telefone *</label>
                                 <input type="text" name="telefone" id="telefone">
 
-                                <label for="endereco">Endereço *</label>
-                                <input type="text" name="endereco" id="endereco">
+                                <div class="inline-fields" style="padding-right: 5px;">
+                                    <label for="logradouro">Logradouro *</label>
+                                    <input type="text" name="logradouro" id="logradouro">
+                                </div>
+
+                                <div class="inline-fields">
+                                    <label for="numero">Número *</label>
+                                    <input type="text" name="numero" id="numero">
+                                </div>
 
                                 <div class="inline-fields" style="padding-right: 5px;">
                                     <label for="bairro">Bairro *</label>
@@ -184,6 +192,9 @@
                                 <label for="observacao">Observação</label>
                                 <textarea name="observacao" id="observacao"></textarea>
 
+                                <input type="hidden" name="frete" id="frete">
+                                <p class="info-frete"></p>
+
                                 <p style="color: red;">* Só realizamos entrega dentro da cidade de Presidente Prudente (até 10km).</p>
                                 <p style="color: red;">* Taxa de frete R$2,00 até 5km ou R$3,00 até 10km.</p>
                             </div>
@@ -194,7 +205,8 @@
 
             <div class="row">
                 <div class="col-md-10 col-md-offset-1" style="text-align: center;">
-                    <button class="btnFazerPedido">Fazer Pedido</button>
+                    <button class="btnCalcularFrete" type="button" style="margin-right: 10px;">Calcular Frete</button>
+                    <button class="btnFazerPedido" disabled="true">Fazer Pedido</button>
                 </div>
             </div>
         @endif
