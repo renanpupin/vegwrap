@@ -186,7 +186,7 @@
 
                                 <div class="inline-fields">
                                     <label for="cep">CEP *</label>
-                                    <input type="text" name="cep" id="cep">
+                                    <input type="text" name="cep" id="cep" onblur="pesquisacep(this.value);">
                                 </div>
 
                                 <label for="observacao">Observação</label>

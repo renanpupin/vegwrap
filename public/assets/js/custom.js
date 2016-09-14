@@ -1,4 +1,24 @@
 $(document).ready(function(){
+
+    //masks
+    $("#telefone")
+    .mask("(99) 9999-9999?9")
+    .focusout(function (event) {  
+        var target, phone, element;  
+        target = (event.currentTarget) ? event.currentTarget : event.srcElement;  
+        phone = target.value.replace(/\D/g, '');
+        element = $(target);  
+        element.unmask();  
+        if(phone.length > 10) {  
+            element.mask("(99) 99999-999?9");  
+        } else {  
+            element.mask("(99) 9999-9999?9");  
+        }  
+    });
+
+    $("#cep").mask("99999-999");
+
+    //click
     $(".btnCalcularFrete").click(function(e){
         var valid = true;
 
@@ -22,7 +42,7 @@ $(document).ready(function(){
             alert("Preencha os campos para calcular o frete");
         }else{
             console.log("calculando o frete");
-            var endereco_origem = "Avenida+da+Saudade,1013+Presidente+Prudente+São+Paulo";
+            var endereco_origem = "Avenida+Paulo+Marcondes,190+Presidente+Prudente+São+Paulo";
             var endereco_entrega = $("#logradouro").val()+","+$("#numero").val()+"+Presidente+Prudente+São+Paulo";
             endereco_entrega = endereco_entrega.replace(/ /g, '+');
 
@@ -281,3 +301,61 @@ $(document).ready(function(){
         $('#modalAdicionais').modal('hide')
     });
 });
+
+//pesquisa de cep
+function limpa_formulário_cep() {
+    $("#logradouro").val("");
+    $("#bairro").val("");
+}
+
+function meu_callback(conteudo) {
+    if (!("erro" in conteudo)) {
+        $("#logradouro").val(conteudo.logradouro);
+        $("#bairro").val(conteudo.bairro);
+    } //end if.
+    else {
+        //CEP não Encontrado.
+        limpa_formulário_cep();
+        alert("CEP não encontrado.");
+    }
+}
+    
+function pesquisacep(valor) {
+
+    //Nova variável "cep" somente com dígitos.
+    var cep = valor.replace(/\D/g, '');
+
+    //Verifica se campo cep possui valor informado.
+    if (cep != "") {
+
+        //Expressão regular para validar o CEP.
+        var validacep = /^[0-9]{8}$/;
+
+        //Valida o formato do CEP.
+        if(validacep.test(cep)) {
+
+            //Preenche os campos com "..." enquanto consulta webservice.
+            $("#logradouro").val("...");
+            $("#bairro").val("...");
+
+            //Cria um elemento javascript.
+            var script = document.createElement('script');
+
+            //Sincroniza com o callback.
+            script.src = '//viacep.com.br/ws/'+ cep + '/json/?callback=meu_callback';
+
+            //Insere script no documento e carrega o conteúdo.
+            document.body.appendChild(script);
+
+        } //end if.
+        else {
+            //cep é inválido.
+            limpa_formulário_cep();
+            alert("Formato de CEP inválido.");
+        }
+    } //end if.
+    else {
+        //cep sem valor, limpa formulário.
+        limpa_formulário_cep();
+    }
+};
