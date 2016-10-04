@@ -329,7 +329,7 @@ class HomeController extends Controller
         Mail::send('emails.pedido', ['pedido' => $pedido, 'itens_pedido' => $itens_pedido], function($message) use ($email)
         {
             $message->subject('Confirmação de Pedido na Vegwrap');
-            $message->from('pedido@vegwrap.com.br', 'Vegwrap');
+            $message->from('contato@vegwrap.com.br', 'Vegwrap');
             $message->to($email);
         });
 
@@ -337,8 +337,8 @@ class HomeController extends Controller
         Mail::send('emails.confirmacaoPedido', ['pedido' => $pedido, 'itens_pedido' => $itens_pedido], function($message)
         {
             $message->subject('Novo Pedido na Vegwrap');
-            $message->from('pedido@vegwrap.com.br', 'Vegwrap');
-            $message->to('pedido@vegwrap.com.br', 'Vegwrap');
+            $message->from('contato@vegwrap.com.br', 'Vegwrap');
+            $message->to('contato@vegwrap.com.br', 'Vegwrap');
             $message->cc('renan.pupin@gmail.com');
         });
 

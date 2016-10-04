@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<script type="text/javascript" src="http://maps.google.com/maps/api/js?key=AIzaSyBN3guDKF2RuMckhiLDEusgV7G8qJ361ek"></script>
+<script type="text/javascript" src="https://maps.google.com/maps/api/js?key=AIzaSyBN3guDKF2RuMckhiLDEusgV7G8qJ361ek"></script>
 <form id="formPedido" class="form-horizontal" role="form" method="POST" action="{{ url('pedido') }}">
     <input type="hidden" name="_token" value="{{ csrf_token() }}">
     <div class="container">

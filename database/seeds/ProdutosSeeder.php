@@ -49,13 +49,6 @@ class ProdutosSeeder extends Seeder
                 'tipo' => "wrap_salgado"
             ),
             array(
-                'id' => 6,
-                'nome' => "Especial",
-                'descricao' => "4 ingredientes à escolha do cliente + azeite de oliva",
-                'preco' => 5,
-                'tipo' => "wrap_salgado"
-            ),
-            array(
                 'id' => 7,
                 'nome' => "Santorini",
                 'descricao' => "Brigadeiro",
