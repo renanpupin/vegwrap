@@ -32,6 +32,7 @@ class SocialAuthController extends Controller
                 'email' => $facebook_user->getEmail(),
                 'avatar' => $facebook_user->getAvatar(),
                 'token' => $facebook_user->token,
+                'type' => 'user'
             ]);
         }
 

@@ -107,8 +107,8 @@
     </div>
     <footer>
         <ul class="icons">
-            <li><a href="#" class="icon alt fa-facebook"><span class="label">Facebook</span></a></li>
-            <li><a href="#" class="icon alt fa-envelope"><span class="label">Email</span></a></li>
+            <li><a href="https://www.facebook.com/Vegwrap/" target=_"blank" class="icon alt fa-facebook"><span class="label">Facebook</span></a></li>
+            <li><a href="mailto:contato@vegwrap.com.br" class="icon alt fa-envelope"><span class="label">Email</span></a></li>
         </ul>
         <ul class="copyright">
             <li>&copy; VegWrap 2016</li><li>Todos os direitos reservados</li>

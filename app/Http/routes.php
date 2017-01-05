@@ -19,9 +19,12 @@ Route::get('/', function () {
 Route::get('/home', 'HomeController@index');
 Route::post('/pedido', 'HomeController@pedido');
 Route::get('/pedidos', 'HomeController@pedidos');
+Route::get('/lista_pedidos', 'HomeController@listaPedidos');
 //Route::get('/confirmacao', 'HomeController@confirmacao');
 
 Route::get('/pedido/{id}', 'HomeController@detalhesPedido');
+Route::get('/pedido/{id}/alterar', 'HomeController@alterarPedido');
+Route::post('/pedido/{id}/salvar', 'HomeController@salvarStatusPedido');
 Route::get('/cancelarPedido/{id}', 'HomeController@cancelarPedido');
 Route::get('/pagarEntrega/{id}', 'HomeController@pagarEntrega');
 Route::get('/pagarPagseguro/{id}', 'HomeController@pagarPagseguro');

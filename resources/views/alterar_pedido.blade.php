@@ -4,39 +4,25 @@
     <div class="container">
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
-                <h1>Pedido {{$pedido->id}}</h1>
+                <h1>Alterar Pedido {{$pedido->id}}</h1>
 
-                @if($pedido->metodo_pagamento == "")
-
-                    @if( Auth::user()->type == "user")
-
-                    <p>Para finalizar seu pedido selecione o método de pagamento.</p>
-
-                    <div class="row">
-                        <div class="col-md-4 col-xs-12">
-                            <a id="cancelarPedido" class="btnCancelar" href="/cancelarPedido/{{$pedido->id}}">Cancelar Pedido</a>
+                <div class="row">
+                    <form id="formAlterarPedido" class="form-horizontal" role="form" method="POST" action="{{ url('pedido/'.$pedido->id.'/salvar') }}">
+                        <div class="col-md-8 col-xs-12">
+                            <!-- <input name="_method" type="hidden" value="PUT"> -->
+                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                            <select id="status" name="status" class="form-control">
+                                <option value="pendente" {{$pedido->status == "pendente" ? " selected='selected'" : ""}}>Pendente</option>
+                                <option value="em_producao" {{$pedido->status == "em_producao" ? " selected='selected'" : ""}}>Em Produção</option>
+                                <option value="em_entrega" {{$pedido->status == "em_entrega" ? " selected='selected'" : ""}}> Em Entrega</option>
+                                <option value="finalizado" {{$pedido->status == "finalizado" ? " selected='selected'" : ""}}>Finalizado</option>
+                            </select>
                         </div>
-
                         <div class="col-md-4 col-xs-12">
-                            <a id="pagarPagSeguro" class="btnCheckout" href="/pagarPagseguro/{{$pedido->id}}">Pagar com Pagseguro</a>
+                            <button type="submit" id="alterarPedido" style="padding: 7px; margin-top: 0;" class="btnCheckout">Alterar Status</button>
                         </div>
-
-                        <div class="col-md-4 col-xs-12">
-                            <a id="pagarEntrega" class="btnCheckout" href="/pagarEntrega/{{$pedido->id}}">Pagar na entrega (somente dinheiro)</a>
-                        </div>
-                    </div>
-
-                    @else
-
-                    <div class="row">
-                        <div class="col-md-4 col-xs-12">
-                            <a id="alterarPedido" class="btnCheckout" href="/pedido/{{$pedido->id}}/alterar">Alterar Status</a>
-                        </div>
-                    </div>
-
-                    @endif
-
-                @endif
+                    </form>
+                </div>
 
                 <br>
 
@@ -65,13 +51,6 @@
                         <label>Pagamento</label>
                         <p>{{$pedido->metodo_pagamento == "" ? "Pendente" : ($pedido->metodo_pagamento == "pagamento_entrega" ? "Na entrega" : "Via Pagseguro")}}</p>
                     </div>
-
-                    @if( Auth::user()->type == "admin")
-                    <div class="col-xs-12 col-md-2">
-                        <label>Status do Pedido</label>
-                        <p>{{$pedido->status}}</p>
-                    </div>
-                    @endif
 
                 </div>
 

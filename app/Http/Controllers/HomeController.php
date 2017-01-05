@@ -96,7 +96,8 @@ class HomeController extends Controller
             'observacao' => $request->get("observacao"),
             'metodo_pagamento' => "",
             'codigo_pagseguro' => "",
-//            'status' => "pendente"
+            'status_pagamento' => "pendente",
+            'status' => "pendente"
         ]);
 
 
@@ -144,6 +145,21 @@ class HomeController extends Controller
 
         if(!empty($pedido)) {
 
+            // switch($pedido->status){
+            //     case "pendente":
+            //         $pedido->status = "Pendente";
+            //         break;
+            //     case "em_producao":
+            //         $pedido->status = "Em Produção";
+            //         break;
+            //     case "em_entrega":
+            //         $pedido->status = "Em Entrega";
+            //         break;
+            //     case "finalizado":
+            //         $pedido->status = "Finalizado";
+            //         break;
+            // }
+
             $pedido->subtotal = number_format($pedido->subtotal, 2, ',', ' ');
             $pedido->frete = number_format($pedido->frete, 2, ',', ' ');
             $pedido->total = number_format($pedido->total, 2, ',', ' ');
@@ -160,6 +176,59 @@ class HomeController extends Controller
         }else{
             return redirect('/home');
         }
+    }
+
+    function alterarPedido($id){
+
+        $pedido = Pedido::where('id', $id)->first();
+
+        if(!empty($pedido)) {
+
+            $pedido->subtotal = number_format($pedido->subtotal, 2, ',', ' ');
+            $pedido->frete = number_format($pedido->frete, 2, ',', ' ');
+            $pedido->total = number_format($pedido->total, 2, ',', ' ');
+
+            $pedido->data = $pedido->created_at->format('d/m/Y');
+
+            $itens_pedido = ItensPedido::where('id_pedido', $pedido->id)->get();
+
+            foreach($itens_pedido as $item){
+                $item->adicionais = AdicionaisItemPedido::where('id_item_pedido', $item->id)->get();
+            }
+
+            return view('alterar_pedido')->with('pedido', $pedido)->with('itens_pedido', $itens_pedido);
+        }else{
+            return redirect('/home');
+        }
+    }
+
+    function salvarStatusPedido($id){
+
+        $status = Input::get('status');
+
+        if(!empty($status)){
+            $pedido = Pedido::where('id', $id)->first();
+
+            $pedido->status = $status;
+            $pedido->save();
+
+            $pedido->subtotal = number_format($pedido->subtotal, 2, ',', ' ');
+            $pedido->frete = number_format($pedido->frete, 2, ',', ' ');
+            $pedido->total = number_format($pedido->total, 2, ',', ' ');
+
+            $pedido->data = $pedido->created_at->format('d/m/Y');
+
+            $itens_pedido = ItensPedido::where('id_pedido', $pedido->id)->get();
+
+            foreach($itens_pedido as $item){
+                $item->adicionais = AdicionaisItemPedido::where('id_item_pedido', $item->id)->get();
+            }
+
+            return view('alterar_pedido')->with('pedido', $pedido)->with('itens_pedido', $itens_pedido);
+        }else{
+            return redirect('/home');
+        }
+        
     }
 
     function cancelarPedido($id){
@@ -201,12 +270,27 @@ class HomeController extends Controller
         return view('pedidos')->with('pedidos', $pedidos);
     }
 
+    function listaPedidos(){
+
+        $pedidos = Pedido::orderBy('created_at', 'desc')->get();
+
+        foreach($pedidos as $pedido){
+            $pedido->subtotal = number_format($pedido->subtotal, 2, ',', ' ');
+            $pedido->frete = number_format($pedido->frete, 2, ',', ' ');
+            $pedido->total = number_format($pedido->total, 2, ',', ' ');
+            $pedido->data = $pedido->created_at->format('d/m/Y');
+        }
+
+        return view('lista_pedidos')->with('pedidos', $pedidos);
+    }
+
     function pagarEntrega($id){
 
         $pedido = Pedido::find($id);
 
         if(!empty($pedido)){
             $pedido->metodo_pagamento = "pagamento_entrega";
+            $pedido->status_pagamento = "pagamento_entrega";
         }
         $pedido->save();
 
@@ -313,7 +397,7 @@ class HomeController extends Controller
     }
 
     function notificacao(){
-//        dd($request->all());
+       dd($request->all());
 //        $credentials = PagSeguro::credentials()->get();
 //        $transaction = PagSeguro::transaction()->get("53F78D39-1FBC-4E72-86F9-C79EE8F64447", $credentials);
 //        $information = $transaction->getInformation();
@@ -321,6 +405,12 @@ class HomeController extends Controller
 
 
         $pedido = Pedido::where('id_user', Auth::user()->id)->orderBy('created_at', 'desc')->first();
+        
+        if(!empty($pedido)){
+            $pedido->status_pagamento = "aprovado";
+        }
+        $pedido->save();
+
         $email = Auth::user()->email;
 
         $itens_pedido = ItensPedido::where('id_pedido', $pedido->id)->get();
@@ -329,7 +419,7 @@ class HomeController extends Controller
         Mail::send('emails.pedido', ['pedido' => $pedido, 'itens_pedido' => $itens_pedido], function($message) use ($email)
         {
             $message->subject('Confirmação de Pedido na Vegwrap');
-            $message->from('contato@vegwrap.com.br', 'Vegwrap');
+            $message->from('pedido@vegwrap.com.br', 'Vegwrap');
             $message->to($email);
         });
 
@@ -337,8 +427,8 @@ class HomeController extends Controller
         Mail::send('emails.confirmacaoPedido', ['pedido' => $pedido, 'itens_pedido' => $itens_pedido], function($message)
         {
             $message->subject('Novo Pedido na Vegwrap');
-            $message->from('contato@vegwrap.com.br', 'Vegwrap');
-            $message->to('contato@vegwrap.com.br', 'Vegwrap');
+            $message->from('pedido@vegwrap.com.br', 'Vegwrap');
+            $message->to('pedido@vegwrap.com.br', 'Vegwrap');
             $message->cc('renan.pupin@gmail.com');
         });
 
