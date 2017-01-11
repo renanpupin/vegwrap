@@ -42,7 +42,17 @@
                                     R$ {{$pedido->total}}
                                 </td>
                                 <td>
-                                    {{$pedido->status}}
+                                    @if($pedido->status == "pendente")
+                                        <span style="color: #e04d1f;">Pendente</span>
+                                    @elseif($pedido->status == "em_producao")
+                                        <span style="color: #2dc3d4;">Em Produção</span>
+                                    @elseif($pedido->status == "em_entrega")
+                                        <span style="color: #d4832d;">Em Entrega</span>
+                                    @elseif($pedido->status == "finalizado")
+                                        <span style="color: #42ab20;">Finalizado</span>
+                                    @else
+                                        <span style="color: #42ab20;">{{$pedido->status}}</span>
+                                    @endif
                                 </td>
                                 <td>
                                     <a href="/pedido/{{$pedido->id}}">Ver detalhes</a>

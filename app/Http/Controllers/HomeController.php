@@ -236,23 +236,45 @@ class HomeController extends Controller
         $pedido = Pedido::find($id);
 
         if(!empty($pedido)){
-            $itens_pedido = ItensPedido::where('id_pedido', $pedido->id)->get();
-            foreach($itens_pedido as $item){
+            if($pedido->status == "pendente"){
+                $itens_pedido = ItensPedido::where('id_pedido', $pedido->id)->get();
+                foreach($itens_pedido as $item){
 
-                //removendo adicionais do item do pedido
-                $adicionais_item_pedido = AdicionaisItemPedido::where('id_item_pedido', $item->id)->get();
-                foreach($adicionais_item_pedido as $adicional){
-                    $adicional->delete();
+                    //removendo adicionais do item do pedido
+                    $adicionais_item_pedido = AdicionaisItemPedido::where('id_item_pedido', $item->id)->get();
+                    foreach($adicionais_item_pedido as $adicional){
+                        $adicional->delete();
+                    }
+
+                    //removendo item do pedido
+                    $item->delete();
                 }
+                //removendo pedido
+                $pedido->delete();
 
-                //removendo item do pedido
-                $item->delete();
+                return redirect('/home');
+            }else{
+                $status_text = "";
+                switch($pedido->status){
+                    case "pendente":
+                        $status_text = "pendente";
+                        break;
+                    case "em_producao":
+                        $status_text = "em produção";
+                        break;
+                    case "em_entrega":
+                        $status_text = "em entrega";
+                        break;
+                    case "finalizado":
+                        $status_text = "finalizado";
+                        break;
+                }
+                return redirect('/pedido/'.$pedido->id)->with("message", 'O pedido está '.$status_text.' e não pode ser mais cancelado! Aguarde a entrega, ou se restar mais alguma dúvida fique a vontade para entrar em contato pelo email "contato@vegwrap.com.br".');
             }
-            //removendo pedido
-            $pedido->delete();
-        }
+        }else{
 
         return redirect('/home');
+        }
 
     }
 

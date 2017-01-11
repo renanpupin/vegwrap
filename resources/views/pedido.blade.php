@@ -6,33 +6,64 @@
             <div class="col-md-10 col-md-offset-1">
                 <h1>Pedido {{$pedido->id}}</h1>
 
-                @if($pedido->metodo_pagamento == "")
+                @if (session('message'))
+                    <div class="alert alert-warning">
+                        {{ session('message') }}
+                    </div>
+                @endif
 
-                    @if( Auth::user()->type == "user")
-
-                    <p>Para finalizar seu pedido selecione o método de pagamento.</p>
+                @if( Auth::user()->type == "admin" && Auth::user()->id == $pedido->id_user)
 
                     <div class="row">
-                        <div class="col-md-4 col-xs-12">
-                            <a id="cancelarPedido" class="btnCancelar" href="/cancelarPedido/{{$pedido->id}}">Cancelar Pedido</a>
-                        </div>
+                        @if($pedido->metodo_pagamento == "")
+                            <div class="col-md-3 col-xs-12">
+                                <a id="cancelarPedido" class="btnCancelar" href="/cancelarPedido/{{$pedido->id}}">Cancelar Pedido</a>
+                            </div>
 
-                        <div class="col-md-4 col-xs-12">
-                            <a id="pagarPagSeguro" class="btnCheckout" href="/pagarPagseguro/{{$pedido->id}}">Pagar com Pagseguro</a>
-                        </div>
+                            <div class="col-md-3 col-xs-12">
+                                <a id="pagarPagSeguro" class="btnCheckout" href="/pagarPagseguro/{{$pedido->id}}">Pagar com Pagseguro</a>
+                            </div>
 
-                        <div class="col-md-4 col-xs-12">
-                            <a id="pagarEntrega" class="btnCheckout" href="/pagarEntrega/{{$pedido->id}}">Pagar na entrega (somente dinheiro)</a>
+                            <div class="col-md-3 col-xs-12">
+                                <a id="pagarEntrega" class="btnCheckout" href="/pagarEntrega/{{$pedido->id}}">Pagar na entrega (dinheiro)</a>
+                            </div>
+                        @endif
+
+                        <div class="col-md-3 col-xs-12">
+                            <a id="alterarPedido" class="btnUpdateStatus" href="/pedido/{{$pedido->id}}/alterar">Alterar Status</a>
                         </div>
                     </div>
 
-                    @else
+                @endif
+
+                @if( Auth::user()->type == "admin" && Auth::user()->id != $pedido->id_user)
 
                     <div class="row">
                         <div class="col-md-4 col-xs-12">
-                            <a id="alterarPedido" class="btnCheckout" href="/pedido/{{$pedido->id}}/alterar">Alterar Status</a>
+                            <a id="alterarPedido" class="btnUpdateStatus" href="/pedido/{{$pedido->id}}/alterar">Alterar Status</a>
                         </div>
                     </div>
+
+                @endif
+
+                @if( Auth::user()->type == "user")
+
+                    @if($pedido->metodo_pagamento == "")
+                        <p>Para finalizar seu pedido selecione o método de pagamento.</p>
+
+                        <div class="row">
+                            <div class="col-md-4 col-xs-12">
+                                <a id="cancelarPedido" class="btnCancelar" href="/cancelarPedido/{{$pedido->id}}">Cancelar Pedido</a>
+                            </div>
+
+                            <div class="col-md-4 col-xs-12">
+                                <a id="pagarPagSeguro" class="btnCheckout" href="/pagarPagseguro/{{$pedido->id}}">Pagar com Pagseguro</a>
+                            </div>
+
+                            <div class="col-md-4 col-xs-12">
+                                <a id="pagarEntrega" class="btnCheckout" href="/pagarEntrega/{{$pedido->id}}">Pagar na entrega (dinheiro)</a>
+                            </div>
+                        </div>
 
                     @endif
 
@@ -69,7 +100,19 @@
                     @if( Auth::user()->type == "admin")
                     <div class="col-xs-12 col-md-2">
                         <label>Status do Pedido</label>
-                        <p>{{$pedido->status}}</p>
+                        <p>
+                            @if($pedido->status == "pendente")
+                                <span style="color: #e04d1f;">Pendente</span>
+                            @elseif($pedido->status == "em_producao")
+                                <span style="color: #2dc3d4;">Em Produção</span>
+                            @elseif($pedido->status == "em_entrega")
+                                <span style="color: #d4832d;">Em Entrega</span>
+                            @elseif($pedido->status == "finalizado")
+                                <span style="color: #42ab20;">Finalizado</span>
+                            @else
+                                <span style="color: #42ab20;">{{$pedido->status}}</span>
+                            @endif
+                        </p>
                     </div>
                     @endif
 

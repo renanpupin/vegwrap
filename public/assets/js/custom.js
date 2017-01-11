@@ -1,22 +1,26 @@
 $(document).ready(function(){
 
     //masks
-    $("#telefone")
-    .mask("(99) 9999-9999?9")
-    .focusout(function (event) {  
-        var target, phone, element;  
-        target = (event.currentTarget) ? event.currentTarget : event.srcElement;  
-        phone = target.value.replace(/\D/g, '');
-        element = $(target);  
-        element.unmask();  
-        if(phone.length > 10) {  
-            element.mask("(99) 99999-999?9");  
-        } else {  
-            element.mask("(99) 9999-9999?9");  
-        }  
-    });
+    if($("#telefone").length > 0){
+        $("#telefone")
+        .mask("(99) 9999-9999?9")
+        .focusout(function (event) {  
+            var target, phone, element;  
+            target = (event.currentTarget) ? event.currentTarget : event.srcElement;  
+            phone = target.value.replace(/\D/g, '');
+            element = $(target);  
+            element.unmask();  
+            if(phone.length > 10) {  
+                element.mask("(99) 99999-999?9");  
+            } else {  
+                element.mask("(99) 9999-9999?9");  
+            }  
+        });
+    }
 
-    $("#cep").mask("99999-999");
+    if($("#cep").length > 0){
+        $("#cep").mask("99999-999");
+    }
 
     //click
     $(".btnCalcularFrete").click(function(e){
@@ -109,44 +113,64 @@ $(document).ready(function(){
     });
 
     $(".btnFazerPedido").click(function(e){
-        var valid = true;
 
-        if($("#frete").val() === ""){
-            valid = false;
-        }
+        var verifica_hora_util = verificaHoraUtil();
+        console.log(verifica_hora_util);
 
-        if($("#nome").val() === ""){
-            valid = false;
-        }
-
-        if($("#telefone").val() === ""){
-            valid = false;
-        }
-
-        if($("#logradouro").val() === ""){
-            valid = false;
-        }
-
-        if($("#numero").val() === ""){
-            valid = false;
-        }
-
-        if($("#bairro").val() === ""){
-            valid = false;
-        }
-
-        if($("#cep").val() === ""){
-            valid = false;
-        }
-
-        if(!$(".wrap-select:checked").size() > 0){
-            valid = false;
-        }
-
-        if(!valid){
+        if(!verifica_hora_util[0]){
+            console.log("false");
+            
+            $('#modalMensagem').modal();
+            $('#modalMensagem').find(".modal-body").html(verifica_hora_util[1]);
+            
             e.preventDefault();
             e.stopPropagation();
-            alert("Preencha todas as informações para completar o pedido!");
+        }else{
+            console.log("true");
+            
+            var valid = true;
+
+            if($("#frete").val() === ""){
+                valid = false;
+            }
+
+            if($("#nome").val() === ""){
+                valid = false;
+            }
+
+            if($("#telefone").val() === ""){
+                valid = false;
+            }
+
+            if($("#logradouro").val() === ""){
+                valid = false;
+            }
+
+            if($("#numero").val() === ""){
+                valid = false;
+            }
+
+            if($("#bairro").val() === ""){
+                valid = false;
+            }
+
+            if($("#cep").val() === ""){
+                valid = false;
+            }
+
+            if(!$(".wrap-select:checked").size() > 0){
+                valid = false;
+            }
+
+            if(!valid){
+                e.preventDefault();
+                e.stopPropagation();
+                alert("Preencha todas as informações para completar o pedido!");
+            }else{
+                if($(".mostrar_observacao:checked").length == 0){
+                    $("#observacao").val("");
+                }
+            }
         }
     });
 
@@ -300,6 +324,25 @@ $(document).ready(function(){
 
         $('#modalAdicionais').modal('hide')
     });
+
+    $(".mostrar_observacao").click(function(){
+        $("#observacao").fadeToggle();
+    });
+
+    $("#buttonOkModalMensagem").click(function(){
+        $('#modalMensagem').modal('hide');
+    });
+
+    var verifica_hora_util = verificaHoraUtil();
+    console.log(verifica_hora_util);
+
+    if(verifica_hora_util[0]){
+        console.log("true");
+    }else{
+        console.log("false");
+        $('#modalMensagem').modal();
+        $('#modalMensagem').find(".modal-body").html(verifica_hora_util[1]);
+    }
 });
 
 //pesquisa de cep
@@ -359,3 +402,46 @@ function pesquisacep(valor) {
         limpa_formulário_cep();
     }
 };
+
+
+// "Horário de Funcionamento: Segunda a Sexta das 08:00 às 18:00.";
+function verificaHoraUtil(){
+    var now = new Date();
+
+    var hora = now.getHours();
+    var minutos = now.getMinutes();
+    
+    var day_names = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
+
+    var week_day_index = now.getDay();
+    console.log("week_day_index = "+week_day_index);
+    console.log("hora = "+hora);
+
+    var message = "";
+    
+    if(week_day_index == 0 || week_day_index == 6){
+        // message = "<h1 style='text-align: center;'>:(</h1>";
+        message = "<p>Desculpe, mas não trabalhamos de "+day_names[week_day_index]+".</p>";
+        message += "<p>Segue nosso horário de funcionamento:</p>";
+        message += "<p>Segunda à Sexta das 08:00 às 18:00.</p>";
+        message += "<p>Aguardamos você! Obrigado.</p>";
+        return [false, message];
+    }else if(hora < 8 || hora >= 18){
+
+        // message = "<h1 style='text-align: center;'>:(</h1>";
+        message = "<p>Desculpe, mas não trabalhamos neste horário de "+day_names[week_day_index]+".</p>";
+        message += "<p>Segue nosso horário de funcionamento:</p>";
+        message += "<p>Segunda à Sexta das 08:00 às 18:00.</p>";
+        message += "<p>Aguardamos você! Obrigado.</p>";
+        return [false, message];
+    }else{
+        return [true, message];
+    }
+}
+
+
+// prototypes
+Date.prototype.getWeek = function() {
+    var onejan = new Date(this.getFullYear(), 0, 1);
+    return Math.ceil((((this - onejan) / 86400000) + onejan.getDay() + 1) / 7);
+}

@@ -19,7 +19,7 @@
                             </select>
                         </div>
                         <div class="col-md-4 col-xs-12">
-                            <button type="submit" id="alterarPedido" style="padding: 7px; margin-top: 0;" class="btnCheckout">Alterar Status</button>
+                            <button type="submit" id="alterarPedido" style="padding: 7px; margin-top: 0;" class="btn btnCheckout">Alterar Status</button>
                         </div>
                     </form>
                 </div>

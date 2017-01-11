@@ -190,7 +190,12 @@
                                 </div>
 
                                 <label for="observacao">Observação</label>
-                                <textarea name="observacao" id="observacao"></textarea>
+                                <div>
+                                	<input type="checkbox" class="mostrar_observacao"> Quero adicionar uma observação.
+                            	</div>
+                                <textarea name="observacao" id="observacao" style="display: none;"></textarea>
+
+                                <br>
 
                                 <input type="hidden" name="frete" id="frete">
                                 <p class="info-frete"></p>
@@ -212,6 +217,27 @@
         @endif
     </div>
 </form>
+
+<!-- Modal -->
+<div class="modal fade" id="modalMensagem" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document" style= "max-width: 375px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">
+            		<!-- <span style="font-weight: bold; padding-right: 40px;">:(</span> -->
+                	VegWrap - Informação
+            	</h4>
+            </div>
+            <div class="modal-body">
+            	...
+            </div>
+            <div class="modal-footer">
+            	<button id="buttonOkModalMensagem" class="btn buttonOkModal">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- Modal -->
 <div class="modal fade" id="modalAdicionais" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

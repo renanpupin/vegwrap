@@ -41,6 +41,15 @@
                                 </td>
                             </tr>
                         @endforeach
+
+                        @if (count($pedidos) == 0)
+                            <tr>
+                                <td colspan="5">
+                                    Nenhum pedido realizado, faça agora seu primeiro pedido clicando 
+                                    <a href="/home">aqui</a>
+                                </td>
+                            </tr>
+                        @endif
                     </tbody>
                 </table>
             </div>
