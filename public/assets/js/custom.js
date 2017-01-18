@@ -423,15 +423,15 @@ function verificaHoraUtil(){
         // message = "<h1 style='text-align: center;'>:(</h1>";
         message = "<p>Desculpe, mas não trabalhamos de "+day_names[week_day_index]+".</p>";
         message += "<p>Segue nosso horário de funcionamento:</p>";
-        message += "<p>Segunda à Sexta das 08:00 às 18:00.</p>";
+        message += "<p>Segunda à Sexta das 18:00 às 22:00.</p>";
         message += "<p>Aguardamos você! Obrigado.</p>";
         return [false, message];
-    }else if(hora < 8 || hora >= 18){
+    }else if(hora < 18 || hora >= 22){
 
         // message = "<h1 style='text-align: center;'>:(</h1>";
         message = "<p>Desculpe, mas não trabalhamos neste horário de "+day_names[week_day_index]+".</p>";
         message += "<p>Segue nosso horário de funcionamento:</p>";
-        message += "<p>Segunda à Sexta das 08:00 às 18:00.</p>";
+        message += "<p>Segunda à Sexta das 18:00 às 22:00.</p>";
         message += "<p>Aguardamos você! Obrigado.</p>";
         return [false, message];
     }else{

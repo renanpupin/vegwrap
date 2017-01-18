@@ -51,7 +51,7 @@
                                                         {{--<img class="wrap-item-image" src="assets/images/wrap_salgado.jpg">--}}
                                                         {{--</td>--}}
                                                         <td class="wrap-name-description">
-                                                            <p class="item-name">{{$wrap_salgado->nome}}</p>
+                                                            <p class="item-name"><b>{{$wrap_salgado->nome}}</b></p>
                                                             <p class="small-font">{{$wrap_salgado->descricao}}</p>
                                                         </td>
                                                         <td class="item-preco">
@@ -93,7 +93,7 @@
                                                         {{--<img class="wrap-item-image" src="assets/images/wrap_salgado.jpg">--}}
                                                         {{--</td>--}}
                                                         <td class="wrap-name-description">
-                                                            <p class="item-name">{{$wrap_doce->nome}}</p>
+                                                            <p class="item-name"><b>{{$wrap_doce->nome}}</b></p>
                                                             <p class="small-font">{{$wrap_doce->descricao}}</p>
                                                         </td>
                                                         <td class="item-preco">
